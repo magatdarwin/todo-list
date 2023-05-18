@@ -1,11 +1,11 @@
 export default function homePage() {
   const body = document.querySelector('body');
 
-  const heading = document.createElement('heading');
+  const header = document.createElement('header');
   const title = document.createElement('h1');
   title.innerText = 'To-Do List';
-  heading.appendChild(title);
-  body.appendChild(heading);
+  header.appendChild(title);
+  body.appendChild(header);
 
   const nav = document.createElement('nav');
   const links = document.createElement('ul');
