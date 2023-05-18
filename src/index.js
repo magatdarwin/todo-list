@@ -1,9 +1,6 @@
 import testPrint from './todo';
 import './style.css';
+import homePage from './dom';
 
 testPrint();
-const body = document.querySelector('body');
-const text = document.createElement('p');
-text.innerText = 'Hello world';
-text.classList.add('hello');
-body.appendChild(text);
+homePage();
