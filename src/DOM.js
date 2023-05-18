@@ -1,4 +1,4 @@
-export default function homePage() {
+export default function initializePage() {
   const body = document.querySelector('body');
 
   const header = document.createElement('header');
@@ -24,5 +24,8 @@ export default function homePage() {
   body.appendChild(nav);
 
   const main = document.createElement('main');
+  const listContainer = document.createElement('div')
+  listContainer.classList.add('list-container');
+  main.appendChild(listContainer)
   body.appendChild(main);
 }

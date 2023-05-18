@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: {
     index: './src/index.js',
-    todo: './src/todo.js',
+    todoItem: './src/todoItem.js',
+    project: './src/project.js'
   },
   plugins: [
     new HtmlWebpackPlugin({
