@@ -9,12 +9,17 @@ export default function homePage() {
 
   const nav = document.createElement('nav');
   const links = document.createElement('ul');
+  links.classList.add('todo-lists');
   const home = document.createElement('li');
   home.innerText = 'Home';
   links.appendChild(home);
   const projects = document.createElement('li');
   projects.innerText = 'Projects';
   links.appendChild(projects);
+  const projectsList = document.createElement('ul');
+  projectsList.classList.add('projects-list')
+  links.appendChild(projectsList);
+
   nav.appendChild(links);
   body.appendChild(nav);
 
