@@ -1,15 +1,35 @@
-const todoItem = (title, dueDate, effortLevel, isCompleted = false) => {
+const todo = (title, dueDate, effortLevel, completed = false) => {
   const getTitle = () => title;
   const getDueDate = () => dueDate;
-  const getIsCompleted = () => isCompleted;
+  const isCompleted = () => completed;
   const getEffortLevel = () => effortLevel;
+
+  const setTitle = newTitle => {
+    title = newTitle;
+  }
+
+  const setDueDate = newDueDate => {
+    dueDate = newDueDate;
+  }
+
+  const toggleCompleted = () => {
+    completed = !completed;
+  }
+
+  const setEffortLevel = newEffortLevel => {
+    effortLevel = newEffortLevel;
+  }
 
   return {
     getTitle,
     getDueDate,
-    getIsCompleted,
+    isCompleted,
     getEffortLevel,
+    setTitle,
+    setDueDate,
+    toggleCompleted,
+    setEffortLevel,
   }
-}
+};
 
-export default todoItem;
+export default todo;
