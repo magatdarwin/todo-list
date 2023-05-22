@@ -1,4 +1,4 @@
-export default function initializePage() {
+const initializePage = () => {
   const body = document.querySelector('body');
 
   const header = document.createElement('header');
@@ -26,6 +26,17 @@ export default function initializePage() {
   const main = document.createElement('main');
   const listContainer = document.createElement('div')
   listContainer.classList.add('list-container');
+
+  const listControls = document.createElement('div');
+  listControls.classList.add('list-controls');
+  const addTodoButton = document.createElement('button');
+  addTodoButton.id = 'add-todo';
+  addTodoButton.textContent = 'New Task';
+  listControls.appendChild(addTodoButton);
+
   main.appendChild(listContainer)
+  main.appendChild(listControls);
   body.appendChild(main);
 }
+
+export { initializePage };
