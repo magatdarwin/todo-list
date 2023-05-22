@@ -40,12 +40,100 @@ const createMainSection = body => {
   body.appendChild(main);
 };
 
+const newTask = body => {
+  const taskModal = document.createElement('div');
+  taskModal.id = 'task-modal';
+
+  const taskForm = document.createElement('form');
+  taskForm.id = 'task-form';
+
+  const titleGroup = document.createElement('div');
+  titleGroup.classList.add('input-group');
+  const titleLabel = document.createElement('label');
+  titleLabel.textContent = 'Title'
+  titleLabel.htmlFor = 'title';
+  const title = document.createElement('input');
+  title.type = 'text';
+  title.id = 'title';
+  title.placeholder = 'Title'
+  titleGroup.appendChild(titleLabel);
+  titleGroup.appendChild(title);
+
+  const dueDateGroup = document.createElement('div');
+  dueDateGroup.classList.add('input-group');
+  const dueDateLabel = document.createElement('label');
+  dueDateLabel.textContent = 'Due Date'
+  dueDateLabel.htmlFor = 'due-date';
+  const dueDate = document.createElement('input');
+  dueDate.type = 'date';
+  dueDate.id = 'due-date';
+  dueDate.placeholder = 'Due Date';
+  dueDateGroup.appendChild(dueDateLabel);
+  dueDateGroup.appendChild(dueDate);
+
+  const effortLevelGroup = document.createElement('div');
+  effortLevelGroup.classList.add('input-group');
+  const effortLevelLabel = document.createElement('label');
+  effortLevelLabel.textContent = 'Effort'
+  effortLevelLabel.htmlFor = 'effort-level';
+  const effortLevel = document.createElement('select');
+  effortLevel.id = 'effort-level';
+  
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '';
+  defaultOption.textContent = 'Please choose an effort level';
+  defaultOption.selected = 'true';
+  defaultOption.disabled = 'true';
+
+  const easyLevel = document.createElement('option');
+  easyLevel.value = '1';
+  easyLevel.textContent = 'Easy';
+  
+  const mediumLevel = document.createElement('option');
+  mediumLevel.value = '2';
+  mediumLevel.textContent = 'Medium';
+
+  const hardLevel = document.createElement('option');
+  hardLevel.value = '3';
+  hardLevel.textContent = 'Hard';
+
+  effortLevel.appendChild(defaultOption);
+  effortLevel.appendChild(easyLevel);
+  effortLevel.appendChild(mediumLevel);
+  effortLevel.appendChild(hardLevel);
+
+  effortLevelGroup.appendChild(effortLevelLabel);
+  effortLevelGroup.appendChild(effortLevel);
+
+  const controlGroup = document.createElement('div');
+  controlGroup.classList.add('control-group');
+  const submitButton = document.createElement('input');
+  submitButton.type = 'submit';
+  submitButton.textContent = 'Submit';
+  submitButton.id = 'submit-new-task';
+  controlGroup.appendChild(submitButton);
+  const cancelButton = document.createElement('button');
+  cancelButton.textContent = 'Cancel';
+  cancelButton.id = 'cancel-new-task';
+  controlGroup.appendChild(cancelButton);
+
+  taskForm.appendChild(titleGroup);
+  taskForm.appendChild(dueDateGroup);
+  taskForm.appendChild(effortLevelGroup);
+  taskForm.appendChild(controlGroup);
+
+  taskModal.appendChild(taskForm);
+  body.appendChild(taskModal);
+};
+
 const initializePage = () => {
   const body = document.querySelector('body');
 
   createHeaderSection(body);
   createNavSection(body);
   createMainSection(body);
+
+  newTask(body);
 };
 
 export { initializePage };
