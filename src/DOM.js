@@ -110,7 +110,7 @@ const newTask = body => {
   controlGroup.classList.add('control-group');
   const submitButton = document.createElement('input');
   submitButton.type = 'submit';
-  submitButton.textContent = 'Submit';
+  submitButton.value = 'Add Task';
   submitButton.id = 'submit-new-task';
   controlGroup.appendChild(submitButton);
   const cancelButton = document.createElement('input');
