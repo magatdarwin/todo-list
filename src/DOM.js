@@ -33,6 +33,7 @@ const createMainSection = body => {
   const addTodoButton = document.createElement('button');
   addTodoButton.id = 'add-todo';
   addTodoButton.textContent = 'New Task';
+  addTodoButton.addEventListener('click', showTaskModal);
   listControls.appendChild(addTodoButton);
   
   main.appendChild(listContainer)
@@ -82,8 +83,8 @@ const newTask = body => {
   const defaultOption = document.createElement('option');
   defaultOption.value = '';
   defaultOption.textContent = 'Please choose an effort level';
-  defaultOption.selected = 'true';
-  defaultOption.disabled = 'true';
+  defaultOption.selected = true;
+  defaultOption.disabled = true;
 
   const easyLevel = document.createElement('option');
   easyLevel.value = '1';
@@ -112,9 +113,11 @@ const newTask = body => {
   submitButton.textContent = 'Submit';
   submitButton.id = 'submit-new-task';
   controlGroup.appendChild(submitButton);
-  const cancelButton = document.createElement('button');
-  cancelButton.textContent = 'Cancel';
+  const cancelButton = document.createElement('input');
+  cancelButton.type = 'button';
+  cancelButton.value = 'Cancel';
   cancelButton.id = 'cancel-new-task';
+  cancelButton.addEventListener('click', hideTaskFormModal);
   controlGroup.appendChild(cancelButton);
 
   taskForm.appendChild(titleGroup);
@@ -124,6 +127,17 @@ const newTask = body => {
 
   taskModal.appendChild(taskForm);
   body.appendChild(taskModal);
+};
+
+const showTaskModal = () => {
+  document.querySelector('#task-modal').style.display = 'block';
+};
+
+const hideTaskFormModal = event => {
+  const taskModal = document.querySelector('#task-modal');
+  taskModal.style.display = 'none';
+  const taskForm = document.querySelector('#task-form');
+  taskForm.reset();
 };
 
 const initializePage = () => {

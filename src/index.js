@@ -1,6 +1,6 @@
-import testPrint from './todo';
 import './style.css';
-import homePage from './dom';
+import { initializePage } from './DOM';
+import todo from './todo.js';
+import project from './project';
 
-testPrint();
-homePage();
+initializePage();
