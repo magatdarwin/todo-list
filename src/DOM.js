@@ -1,4 +1,4 @@
-const createHeaderSectoin = body => {
+const createHeaderSection = body => {
   const header = document.createElement('header');
   const title = document.createElement('h1');
   title.innerText = 'To-Do List';
@@ -43,7 +43,7 @@ const createMainSection = body => {
 const initializePage = () => {
   const body = document.querySelector('body');
 
-  createHeaderSectoin(body);
+  createHeaderSection(body);
   createNavSection(body);
   createMainSection(body);
 };
