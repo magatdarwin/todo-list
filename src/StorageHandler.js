@@ -1,10 +1,9 @@
-import Task from './Task.js';
-import Project from './Project.js';
-import StorageHandler from './StorageHandler.js';
+import Task from './Task';
+import Project from './Project';
+import ProjectList from './ProjectList';
 
-import ProjectList from './ProjectList.js';
 
-const main = () => {
+const StorageHandler = () => {
   // The returned data here will be used to store to localStorage
   const getTaskData = task => {
     return {
@@ -76,44 +75,11 @@ const main = () => {
   const retrieveProjectListObject = () => {
     return getProjectListObject(JSON.parse(localStorage.getItem('projectList')));
   }
-  
 
-  let projectListObject = ProjectList();
+  return {
+    storeProjectList,
+    retrieveProjectListObject,
+  }
+};
 
-  let task1 = Task('Laundry', 'May 29, 2023', 'Easy');
-  let task2 = Task('Work', 'May 29, 2023', 'Hard');
-
-  let defaultProject = Project('default');
-  defaultProject.addTask(task1);
-  defaultProject.addTask(task2);
-
-  projectListObject.addProject(defaultProject); // STOPPED HERE
-  // TODO: getProjectListData, getProjectListObject, storeProjectList, retrieveProjectList
-  
-  /* 
-  // Flow of getting the JSON Data then converting to Object
-  console.log(getProjectData(defaultProject));
-
-  let task1Data = getTaskData(task1);
-  let task1Object = getTaskObject(task1Data);
-  
-  console.log(task1Object.getTitle()); 
-  */
-
-  // Temp
-/*   let projectListData = getProjectListData(projectListObject);
-
-  let retrievedProjectListObject = getProjectListObject(projectListData);
-  console.log('RETRIEVED PROJECT LIST OBJECT');
-  console.log(retrievedProjectListObject.getProjectList()[0].getItems()[0].getTitle());
- */
-
-  storeProjectList(projectListObject);
-  let retrievedProjectListObject = retrieveProjectListObject();
-  console.log('RETRIEVED PROJECT LIST OBJECT');
-  console.log(retrievedProjectListObject.getProjectList());
-  // console.log(retrievedProjectListObject.getProjectList()[0].getTasks()[0].getTitle());
-
-}
-
-export default main;
+export default StorageHandler;

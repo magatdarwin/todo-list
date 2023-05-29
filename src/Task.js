@@ -1,4 +1,4 @@
-const todo = (title, dueDate, effortLevel, completed = false) => {
+const Task = (title, dueDate, effortLevel, completed = false) => {
   const getTitle = () => title;
   const getDueDate = () => dueDate;
   const isCompleted = () => completed;
@@ -22,7 +22,7 @@ const todo = (title, dueDate, effortLevel, completed = false) => {
 
   return {
     getTitle,
-    getDueDate,
+    getDueDate, 
     isCompleted,
     getEffortLevel,
     setTitle,
@@ -32,4 +32,4 @@ const todo = (title, dueDate, effortLevel, completed = false) => {
   }
 };
 
-export default todo;
+export default Task;

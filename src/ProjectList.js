@@ -1,6 +1,4 @@
-const projectList = () => {
-  let projects = {};
-
+const ProjectList = (projects = {}) => {
   const addProject = project => {
     projects[project.getName()] = project;
   }
@@ -28,4 +26,4 @@ const projectList = () => {
   }
 };
 
-export default projectList;
+export default ProjectList;

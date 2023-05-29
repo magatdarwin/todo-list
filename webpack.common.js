@@ -4,9 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: {
     index: './src/index.js',
-    todo: './src/todo.js',
-    project: './src/project.js',
-    projectList: './src/projectList.js'
+    Task: './src/Task.js',
+    Project: './src/Project.js',
+    ProjectList: './src/ProjectList.js',
+    StorageHandler: './src/StorageHandler.js'
   },
   plugins: [
     new HtmlWebpackPlugin({
