@@ -1,9 +1,13 @@
 import './style.css';
-import { initializePage } from './DOM';
+import { initializePage } from './DOM.js';
+import { 
+  storeProjectList, 
+  retrieveProjectListObject 
+} from './StorageHandler.js';
 import Task from './Task.js';
 import Project from './Project.js';
 import ProjectList from './ProjectList.js';
-import StorageHandler from './StorageHandler.js';
+// import StorageHandler from './StorageHandler.js';
 
 
 initializePage();
@@ -20,10 +24,16 @@ defaultProject.addTask(task2);
 projectListObject.addProject(defaultProject); 
 
 // Temp
-let storageHandler = StorageHandler();
+/* let storageHandler = StorageHandler();
 
 storageHandler.storeProjectList(projectListObject);
 let retrievedProjectListObject = storageHandler.retrieveProjectListObject();
+console.log('RETRIEVED PROJECT LIST OBJECT');
+console.log(retrievedProjectListObject.getProjectList());
+console.log(retrievedProjectListObject.getProjectList()[0].getTasks()[0].getTitle()); */
+
+storeProjectList(projectListObject);
+let retrievedProjectListObject = retrieveProjectListObject();
 console.log('RETRIEVED PROJECT LIST OBJECT');
 console.log(retrievedProjectListObject.getProjectList());
 console.log(retrievedProjectListObject.getProjectList()[0].getTasks()[0].getTitle());
