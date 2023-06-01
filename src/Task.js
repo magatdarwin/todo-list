@@ -1,7 +1,10 @@
 const Task = (title, dueDate, effortLevel, completed = false) => {
   const getTitle = () => title;
+
   const getDueDate = () => dueDate;
+
   const isCompleted = () => completed;
+
   const getEffortLevel = () => effortLevel;
 
   const setTitle = newTitle => {
