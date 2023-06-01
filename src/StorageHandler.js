@@ -1,7 +1,7 @@
 import Task from './Task';
 import Project from './Project';
 import ProjectList from './ProjectList';
-
+import { loadTasks, hideTaskFormModal } from './DOM';
 
 // The returned data here will be used to store to localStorage
 const getTaskData = task => {
@@ -75,7 +75,26 @@ const retrieveProjectListObject = () => {
   return getProjectListObject(JSON.parse(localStorage.getItem('projectList')));
 }
 
+const addTask = event => {
+  event.preventDefault();
+  
+  const projectName = 'default';
+  const title = document.querySelector('#title').value;
+  const dueDate = document.querySelector('#due-date').value;
+  const effortLevel = document.querySelector('#effort-level').value;
+
+  const newTask = Task(title, dueDate, effortLevel);
+  const projectListObject = retrieveProjectListObject();
+
+  const project = projectListObject.getProject(projectName);
+  project.addTask(newTask);
+  storeProjectList(projectListObject);
+
+  document.querySelector('#task-form').reset();
+}
+
 export {
   storeProjectList,
   retrieveProjectListObject,
+  addTask,
 }

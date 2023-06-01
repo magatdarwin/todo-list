@@ -1,3 +1,9 @@
+import { 
+  storeProjectList, 
+  retrieveProjectListObject,
+  addTask
+} from './StorageHandler.js';
+
 const createHeaderSection = body => {
   const header = document.createElement('header');
   const title = document.createElement('h1');
@@ -41,7 +47,7 @@ const createMainSection = body => {
   body.appendChild(main);
 };
 
-const newTask = body => {
+const newTaskDialog = body => {
   const taskModal = document.createElement('div');
   taskModal.id = 'task-modal';
 
@@ -112,6 +118,11 @@ const newTask = body => {
   submitButton.type = 'submit';
   submitButton.value = 'Add Task';
   submitButton.id = 'submit-new-task';
+  submitButton.addEventListener('click', event => {
+    addTask(event);
+    hideTaskFormModal();
+    loadTasks('default');
+  });
   controlGroup.appendChild(submitButton);
   const cancelButton = document.createElement('input');
   cancelButton.type = 'button';
@@ -140,6 +151,71 @@ const hideTaskFormModal = event => {
   taskForm.reset();
 };
 
+const loadTasks = projectName => {
+  const listContainer = document.querySelector('.list-container');
+  while(listContainer.firstChild) {
+    listContainer.removeChild(listContainer.firstChild);
+  }
+
+  let projectListObject = retrieveProjectListObject();
+  let tasks = projectListObject.getProject(projectName).getTasks();
+
+  for (let task of tasks) {
+    const taskContainer = document.createElement('div');
+    taskContainer.classList.add('task-container');
+
+    const completed = document.createElement('input');
+    completed.type = 'checkbox';
+    completed.classList.add('is-completed');
+    completed.checked = task.isCompleted();
+
+    const title = document.createElement('input');
+    title.type = 'text';
+    title.readOnly = true;
+    title.classList.add('task-title');
+    title.value = task.getTitle();
+
+    const effortLevel = document.createElement('select');
+    effortLevel.classList.add('effort-level');
+    const easyLevel = document.createElement('option');
+    easyLevel.value = '1';
+    easyLevel.textContent = 'Easy';
+    const mediumLevel = document.createElement('option');
+    mediumLevel.value = '2';
+    mediumLevel.textContent = 'Medium';  
+    const hardLevel = document.createElement('option');
+    hardLevel.value = '3';
+    hardLevel.textContent = 'Hard';
+    effortLevel.appendChild(easyLevel);
+    effortLevel.appendChild(mediumLevel);
+    effortLevel.appendChild(hardLevel);
+    effortLevel.value = task.getEffortLevel();
+
+    const dueDate = document.createElement('input');
+    dueDate.type = 'date';
+    dueDate.value = task.getDueDate();
+
+    const editButton = document.createElement('input');
+    editButton.type = 'button'
+    editButton.id = 'edit-task';
+    editButton.value = 'Edit';
+
+    const deleteButton = document.createElement('input');
+    deleteButton.type = 'button'
+    deleteButton.id = 'delete-task';
+    deleteButton.value = 'Delete';
+
+    taskContainer.appendChild(completed);
+    taskContainer.appendChild(title);
+    taskContainer.appendChild(effortLevel);
+    taskContainer.appendChild(dueDate);
+    taskContainer.appendChild(editButton);
+    taskContainer.appendChild(deleteButton);
+    
+    listContainer.appendChild(taskContainer);
+  }
+}
+
 const initializePage = () => {
   const body = document.querySelector('body');
 
@@ -147,7 +223,8 @@ const initializePage = () => {
   createNavSection(body);
   createMainSection(body);
 
-  newTask(body);
+  newTaskDialog(body);
+  loadTasks('default');
 };
 
-export { initializePage };
+export { initializePage, loadTasks, hideTaskFormModal };

@@ -4,36 +4,33 @@ import {
   storeProjectList, 
   retrieveProjectListObject 
 } from './StorageHandler.js';
+
 import Task from './Task.js';
 import Project from './Project.js';
 import ProjectList from './ProjectList.js';
-// import StorageHandler from './StorageHandler.js';
 
 
-initializePage();
+const main = (() => {
+  const initializeDefaultProject = projectListObject => {
+    if (projectListObject.default === undefined) {
+      let defaultProject = Project('default');
+      projectListObject.addProject(defaultProject);   
+    }
+  };
 
-let projectListObject = ProjectList();
+  const initializeProjectList = () => {
+    let projectListObject = localStorage.getItem('projectList');
 
-let task1 = Task('Laundry', 'May 29, 2023', 'Easy');
-let task2 = Task('Work', 'May 29, 2023', 'Hard');
+    if (projectListObject === null) {
+      projectListObject = ProjectList();
+      initializeDefaultProject(projectListObject);
+      storeProjectList(projectListObject);
+    }
+  };
 
-let defaultProject = Project('default');
-defaultProject.addTask(task1);
-defaultProject.addTask(task2);
 
-projectListObject.addProject(defaultProject); 
+  initializeProjectList();
+  initializePage();
+})();
 
-// Temp
-/* let storageHandler = StorageHandler();
-
-storageHandler.storeProjectList(projectListObject);
-let retrievedProjectListObject = storageHandler.retrieveProjectListObject();
-console.log('RETRIEVED PROJECT LIST OBJECT');
-console.log(retrievedProjectListObject.getProjectList());
-console.log(retrievedProjectListObject.getProjectList()[0].getTasks()[0].getTitle()); */
-
-storeProjectList(projectListObject);
-let retrievedProjectListObject = retrieveProjectListObject();
-console.log('RETRIEVED PROJECT LIST OBJECT');
-console.log(retrievedProjectListObject.getProjectList());
-console.log(retrievedProjectListObject.getProjectList()[0].getTasks()[0].getTitle());
+main;
