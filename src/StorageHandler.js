@@ -93,8 +93,37 @@ const addTask = event => {
   document.querySelector('#task-form').reset();
 }
 
+const editTask = event => {
+  const taskContainer = event.target.parentElement; 
+  const taskIndex = taskContainer.dataset.taskIndex;
+
+  const editButton = taskContainer.querySelector('.edit-task');
+
+  const title = taskContainer.querySelector('.task-title').value;
+  const effortLevel = taskContainer.querySelector('.effort-level').value;
+  const dueDate = taskContainer.querySelector('.due-date').value;
+
+  const projectName = 'default';
+  let projectListObject = retrieveProjectListObject();
+  let project = projectListObject.getProject(projectName);
+  let task = project.getTask(taskIndex);
+
+  task.setTitle(title);
+  task.setEffortLevel(effortLevel);
+  task.setDueDate(dueDate);
+
+  storeProjectList(projectListObject);
+
+  taskContainer.querySelector('.save-changes').hidden = false;
+  editButton.hidden = false;
+  event.target.hidden = true;
+
+  loadTasks(projectName);
+}
+
 export {
   storeProjectList,
   retrieveProjectListObject,
   addTask,
+  editTask,
 }

@@ -1,24 +1,23 @@
-const Project = (name, tasks = {}) => {
+const Project = (name, tasks = []) => {
   const getName = () => name;
 
-  const getTask = taskName => tasks[taskName];
+  const getTask = index => tasks[index];
 
-  const getTasks = () => {
-    let list = [];
-    for (let key in tasks) {
-      list.push(tasks[key]);
-    }
-
-    return list;
+  const getTaskByName = taskName => {
+    return tasks[tasks.indexOf(taskName)];
   }
 
-  const addTask = task => {
-    tasks[task.getTitle()] = task;
+  const getTasks = () => tasks;
+
+  const addTask = taskName => {
+    // tasks[task.getTitle()] = task;
+    tasks.push(taskName);
   }
 
   return {
     getName,
     getTask,
+    getTaskByName,
     getTasks,
     addTask,
   }

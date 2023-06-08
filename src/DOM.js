@@ -1,7 +1,8 @@
 import { 
   storeProjectList, 
   retrieveProjectListObject,
-  addTask
+  addTask,
+  editTask
 } from './StorageHandler.js';
 
 const createHeaderSection = body => {
@@ -151,6 +152,17 @@ const hideTaskFormModal = event => {
   taskForm.reset();
 };
 
+const enableEditTask = event => {
+  const taskContainer = event.target.parentElement;
+
+  taskContainer.querySelector('.task-title').readOnly = false;
+  taskContainer.querySelector('.effort-level').disabled = false;
+  taskContainer.querySelector('.due-date').readOnly = false;
+
+  taskContainer.querySelector('.save-changes').hidden = false;
+  event.target.hidden = true;
+}
+
 const loadTasks = projectName => {
   const listContainer = document.querySelector('.list-container');
   while(listContainer.firstChild) {
@@ -160,9 +172,12 @@ const loadTasks = projectName => {
   let projectListObject = retrieveProjectListObject();
   let tasks = projectListObject.getProject(projectName).getTasks();
 
-  for (let task of tasks) {
+  for (let index in tasks) {
+    const task = tasks[index];
+    const taskName = task.getTitle();
     const taskContainer = document.createElement('div');
     taskContainer.classList.add('task-container');
+    taskContainer.dataset.taskIndex = index;
 
     const completed = document.createElement('input');
     completed.type = 'checkbox';
@@ -173,7 +188,7 @@ const loadTasks = projectName => {
     title.type = 'text';
     title.readOnly = true;
     title.classList.add('task-title');
-    title.value = task.getTitle();
+    title.value = taskName;
 
     const effortLevel = document.createElement('select');
     effortLevel.classList.add('effort-level');
@@ -190,19 +205,30 @@ const loadTasks = projectName => {
     effortLevel.appendChild(mediumLevel);
     effortLevel.appendChild(hardLevel);
     effortLevel.value = task.getEffortLevel();
+    effortLevel.disabled = true;
 
     const dueDate = document.createElement('input');
+    dueDate.classList.add('due-date');
     dueDate.type = 'date';
     dueDate.value = task.getDueDate();
+    dueDate.readOnly = true;
 
     const editButton = document.createElement('input');
     editButton.type = 'button'
-    editButton.id = 'edit-task';
+    editButton.classList.add('edit-task');
     editButton.value = 'Edit';
+    editButton.addEventListener('click', enableEditTask);
+
+    const saveChangesButton = document.createElement('input');
+    saveChangesButton.type = 'button';
+    saveChangesButton.classList.add('save-changes');
+    saveChangesButton.value = 'Save Changes';
+    saveChangesButton.addEventListener('click', editTask);
+    saveChangesButton.hidden = true;
 
     const deleteButton = document.createElement('input');
     deleteButton.type = 'button'
-    deleteButton.id = 'delete-task';
+    deleteButton.classList.add('delete-task');
     deleteButton.value = 'Delete';
 
     taskContainer.appendChild(completed);
@@ -210,6 +236,7 @@ const loadTasks = projectName => {
     taskContainer.appendChild(effortLevel);
     taskContainer.appendChild(dueDate);
     taskContainer.appendChild(editButton);
+    taskContainer.appendChild(saveChangesButton);
     taskContainer.appendChild(deleteButton);
     
     listContainer.appendChild(taskContainer);
