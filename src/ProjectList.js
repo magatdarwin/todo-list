@@ -32,6 +32,15 @@ const ProjectList = (projects = []) => {
     return list;
   };
 
+  const getProjectNames = () => {
+    let list = [];
+    for (let project of projects) {
+      list.push(project.getName());
+    }
+
+    return list;
+  };
+
   const removeProject = index => {
     projects.splice(index, 1);
   }
@@ -40,6 +49,7 @@ const ProjectList = (projects = []) => {
     addProject,
     getProject,
     getProjectList,
+    getProjectNames,
     removeProject,
   }
 };

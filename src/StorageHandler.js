@@ -77,8 +77,8 @@ const retrieveProjectListObject = () => {
 
 const addTask = event => {
   event.preventDefault();
-  
-  const projectName = 'default';
+
+  const projectName = localStorage.getItem('activeProject');
   const title = document.querySelector('#title').value;
   const dueDate = document.querySelector('#due-date').value;
   const effortLevel = document.querySelector('#effort-level').value;
@@ -103,7 +103,7 @@ const editTask = event => {
   const effortLevel = taskContainer.querySelector('.effort-level').value;
   const dueDate = taskContainer.querySelector('.due-date').value;
 
-  const projectName = 'default';
+  const projectName = localStorage.getItem('activeProject');
   let projectListObject = retrieveProjectListObject();
   let project = projectListObject.getProject(projectName);
   let task = project.getTask(taskIndex);
@@ -118,19 +118,41 @@ const editTask = event => {
   editButton.hidden = false;
   event.target.hidden = true;
 
-  loadTasks(projectName);
+  loadTasks();
 }
 
 const addProject = event => {
   event.preventDefault();
 
   const projectName = document.querySelector('#project-name').value;
-  const newProject = Project(projectName);
   const projectListObject = retrieveProjectListObject();
-  projectListObject.addProject(newProject);
-  storeProjectList(projectListObject);
+  const projectNames = projectListObject.getProjectNames();
 
-  document.querySelector('#project-form').reset();
+  if (projectNames.includes(projectName)) {
+    alert(`${projectName} already exists. Please enter a unique project name.`);
+  }
+  else {
+    const newProject = Project(projectName);
+
+    projectListObject.addProject(newProject);
+    storeProjectList(projectListObject);
+
+    document.querySelector('#project-form').reset();  
+  }
+};
+
+const updateActiveProject = newActiveProject => {
+  const projectListObject = retrieveProjectListObject();
+  const projects = projectListObject.getProjectNames();
+
+  if (projects.includes(newActiveProject)) {
+    localStorage.setItem('activeProject', newActiveProject);
+
+    const currentActiveProjectElement = document.querySelector('#current-project');
+    currentActiveProjectElement.removeAttribute('id');
+    const newActiveProjectElement = document.querySelector(`[data-project-name="${newActiveProject}"]`);
+    newActiveProjectElement.id = 'current-project';
+  }
 };
 
 export {
@@ -138,5 +160,6 @@ export {
   retrieveProjectListObject,
   addTask,
   editTask,
-  addProject
+  addProject,
+  updateActiveProject
 }

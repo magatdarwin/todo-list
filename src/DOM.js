@@ -3,7 +3,8 @@ import {
   retrieveProjectListObject,
   addTask,
   editTask,
-  addProject
+  addProject,
+  updateActiveProject
 } from './StorageHandler.js';
 
 const createHeaderSection = body => {
@@ -23,6 +24,11 @@ const createNavSection = body => {
   const home = document.createElement('button');
   home.innerText = 'Home';
   home.classList.add('project');
+  home.dataset.projectName = 'default';
+  home.addEventListener('click', () => {
+    updateActiveProject('default');
+    loadTasks();
+  });
   home.id = 'current-project';
   homeContainer.appendChild(home);
   links.appendChild(homeContainer);
@@ -183,7 +189,7 @@ const newTaskDialog = body => {
   submitButton.addEventListener('click', event => {
     addTask(event);
     hideTaskFormModal();
-    loadTasks('default');
+    loadTasks();
   });
   controlGroup.appendChild(submitButton);
   const cancelButton = document.createElement('input');
@@ -239,7 +245,9 @@ const enableEditTask = event => {
   event.target.hidden = true;
 }
 
-const loadTasks = projectName => {
+const loadTasks = () => {
+  const projectName = localStorage.getItem('activeProject');
+
   const listContainer = document.querySelector('.list-container');
   while(listContainer.firstChild) {
     listContainer.removeChild(listContainer.firstChild);
@@ -333,9 +341,14 @@ const loadProjects = () => {
   for (let project of projectList) {
     const projectContainer = document.createElement('li');
     const projectButton = document.createElement('button');
-    projectButton.innerText = project.getName();
+    const projectName = project.getName();
+    projectButton.innerText = projectName;
     projectButton.classList.add('project');
-    projectButton.dataset.projectName = project.getName();
+    projectButton.dataset.projectName = projectName;
+    projectButton.addEventListener('click', () => {
+      updateActiveProject(projectName);
+      loadTasks();
+    });
     projectContainer.appendChild(projectButton);
     projectListContainer.appendChild(projectContainer);
   }
@@ -350,7 +363,8 @@ const initializePage = () => {
 
   newTaskDialog(body);
   newProjectDialog(body);
-  loadTasks('default');
+  updateActiveProject('default');
+  loadTasks();
 };
 
 export { initializePage, loadTasks, hideTaskFormModal };
