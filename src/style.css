@@ -82,6 +82,10 @@ button, input[type="button"] {
   width: 250px;
 }
 
+#list-title {
+  margin: 0;
+}
+
 .list-container {
   display: flex;
   flex-direction: column;
@@ -101,4 +105,13 @@ button, input[type="button"] {
 .projects {
   display: flex;
   justify-content: space-between;
+}
+
+.project-list {
+  list-style: none;
+  padding-left: 20px;
+}
+
+#current-project {
+  background-color: rgb(151, 202, 151);
 }

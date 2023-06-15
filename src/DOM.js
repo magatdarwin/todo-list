@@ -21,18 +21,18 @@ const createNavSection = body => {
   const links = document.createElement('ul');
   links.classList.add('todo-lists');
 
-  const homeContainer = document.createElement('li');
-  const home = document.createElement('button');
-  home.innerText = 'Home';
-  home.classList.add('project');
-  home.dataset.projectName = 'default';
-  home.addEventListener('click', () => {
-    updateActiveProject('default');
+  const generalContainer = document.createElement('li');
+  const general = document.createElement('button');
+  general.innerText = 'General';
+  general.classList.add('project');
+  general.dataset.projectName = 'General';
+  general.addEventListener('click', () => {
+    updateActiveProject('General');
     loadTasks();
   });
-  home.id = 'current-project';
-  homeContainer.appendChild(home);
-  links.appendChild(homeContainer);
+  general.id = 'current-project';
+  generalContainer.appendChild(general);
+  links.appendChild(generalContainer);
 
   const projects = document.createElement('li');
   const projectsHeader = document.createElement('div');
@@ -58,6 +58,13 @@ const createNavSection = body => {
 
 const createMainSection = body => {
   const main = document.createElement('main');
+
+  const listTitleContainer = document.createElement('div');
+  listTitleContainer.classList.add('list-title-container');
+  const listTitle = document.createElement('h2');
+  listTitle.id = 'list-title';
+  listTitleContainer.appendChild(listTitle);
+
   const listContainer = document.createElement('div')
   listContainer.classList.add('list-container');
 
@@ -69,6 +76,7 @@ const createMainSection = body => {
   addTodoButton.addEventListener('click', showTaskModal);
   listControls.appendChild(addTodoButton);
   
+  main.appendChild(listTitleContainer);
   main.appendChild(listContainer)
   main.appendChild(listControls);
   body.appendChild(main);
@@ -249,6 +257,9 @@ const enableEditTask = event => {
 const loadTasks = () => {
   const projectName = localStorage.getItem('activeProject');
 
+  const listTitle = document.querySelector('#list-title');
+  listTitle.innerText = projectName;
+
   const listContainer = document.querySelector('.list-container');
   while(listContainer.firstChild) {
     listContainer.removeChild(listContainer.firstChild);
@@ -339,7 +350,7 @@ const loadProjects = () => {
 
   const projectListObject = retrieveProjectListObject();
   let projectList = projectListObject.getProjectList();
-  projectList.splice(0, 1); // Removes 'default' project
+  projectList.splice(0, 1); // Removes 'General' project
   for (let project of projectList) {
     const projectContainer = document.createElement('li');
     const projectButton = document.createElement('button');
@@ -365,7 +376,7 @@ const initializePage = () => {
 
   newTaskDialog(body);
   newProjectDialog(body);
-  updateActiveProject('default');
+  updateActiveProject('General');
   loadTasks();
 };
 

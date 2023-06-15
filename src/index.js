@@ -13,7 +13,7 @@ import ProjectList from './ProjectList.js';
 const main = (() => {
   const initializeDefaultProject = projectListObject => {
     if (projectListObject.getProject(0) === undefined) {
-      let defaultProject = Project('default');
+      let defaultProject = Project('General');
       projectListObject.addProject(defaultProject);
     }
   };
