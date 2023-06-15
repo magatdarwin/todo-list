@@ -45,7 +45,7 @@ main {
   gap: 10px;
 }
 
-.list-controls button {
+button, input[type="button"] {
   cursor: pointer;
 }
 
@@ -62,13 +62,14 @@ main {
   background-color: rgba(0,0,0,0.4);
 }
 
-#task-form {
+#task-form, #project-form {
+  display: none;
   background-color: white;
   border-radius: 20px;
   padding: 20px;
   margin: 15% 35%;
   padding: 40px;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
   gap: 10px;
@@ -95,4 +96,9 @@ main {
 
 .task-container > .effort-level {
   color: black;
+}
+
+.projects {
+  display: flex;
+  justify-content: space-between;
 }

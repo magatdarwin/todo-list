@@ -10,7 +10,6 @@ const Project = (name, tasks = []) => {
   const getTasks = () => tasks;
 
   const addTask = taskName => {
-    // tasks[task.getTitle()] = task;
     tasks.push(taskName);
   }
 

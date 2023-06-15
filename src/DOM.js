@@ -2,7 +2,8 @@ import {
   storeProjectList, 
   retrieveProjectListObject,
   addTask,
-  editTask
+  editTask,
+  addProject
 } from './StorageHandler.js';
 
 const createHeaderSection = body => {
@@ -17,17 +18,35 @@ const createNavSection = body => {
   const nav = document.createElement('nav');
   const links = document.createElement('ul');
   links.classList.add('todo-lists');
-  const home = document.createElement('li');
+
+  const homeContainer = document.createElement('li');
+  const home = document.createElement('button');
   home.innerText = 'Home';
-  links.appendChild(home);
+  home.classList.add('project');
+  home.id = 'current-project';
+  homeContainer.appendChild(home);
+  links.appendChild(homeContainer);
+
   const projects = document.createElement('li');
-  projects.innerText = 'Projects';
+  const projectsHeader = document.createElement('div');
+  projectsHeader.classList.add('projects');
+  projectsHeader.innerText = 'Projects';
+  const newProjectButton = document.createElement('button');
+  newProjectButton.textContent = '+';
+  newProjectButton.id = 'new-project';
+  newProjectButton.addEventListener('click', showProjectForm);
+
+  projectsHeader.appendChild(newProjectButton);
+  projects.appendChild(projectsHeader);
+
   links.appendChild(projects);
-  const projectsList = document.createElement('ul');
-  projectsList.classList.add('projects-list')
-  links.appendChild(projectsList);
+  const projectListContainer = document.createElement('ul');
+  projectListContainer.classList.add('project-list');
+
+  links.appendChild(projectListContainer);
   nav.appendChild(links);
   body.appendChild(nav);
+  loadProjects();
 };
 
 const createMainSection = body => {
@@ -46,6 +65,48 @@ const createMainSection = body => {
   main.appendChild(listContainer)
   main.appendChild(listControls);
   body.appendChild(main);
+};
+
+const newProjectDialog = body => {
+  const formContainer = document.querySelector('#task-modal');
+
+  const projectForm = document.createElement('form');
+  projectForm.id = 'project-form';
+
+  const nameGroup = document.createElement('div');
+  nameGroup.classList.add('input-group');
+  const nameLabel = document.createElement('label');
+  nameLabel.textContent = 'Name';
+  nameLabel.htmlFor = 'project-name';
+  const name = document.createElement('input');
+  name.type = 'text';
+  name.id = 'project-name';
+  name.placeholder = 'Project Name';
+  nameGroup.appendChild(nameLabel);
+  nameGroup.appendChild(name);
+
+  const controlGroup = document.createElement('div');
+  controlGroup.classList.add('control-group');
+  const submitButton = document.createElement('input');
+  submitButton.type = 'submit';
+  submitButton.value = 'Add Project';
+  submitButton.id = 'add-new-project';
+  submitButton.addEventListener('click', event => {
+    addProject(event);
+    hideProjectForm();
+    loadProjects();
+  });
+  controlGroup.appendChild(submitButton);
+  const cancelButton = document.createElement('input');
+  cancelButton.type = 'button';
+  cancelButton.value = 'Cancel';
+  cancelButton.id = 'cancel-new-project';
+  cancelButton.addEventListener('click', hideProjectForm);
+  controlGroup.appendChild(cancelButton);
+
+  projectForm.appendChild(nameGroup);
+  projectForm.appendChild(controlGroup);
+  formContainer.appendChild(projectForm);
 };
 
 const newTaskDialog = body => {
@@ -143,13 +204,28 @@ const newTaskDialog = body => {
 
 const showTaskModal = () => {
   document.querySelector('#task-modal').style.display = 'block';
+  document.querySelector('#task-form').style.display = 'flex';
 };
 
 const hideTaskFormModal = event => {
   const taskModal = document.querySelector('#task-modal');
   taskModal.style.display = 'none';
   const taskForm = document.querySelector('#task-form');
+  taskForm.style.display = 'none';
   taskForm.reset();
+};
+
+const showProjectForm = () => {
+  document.querySelector('#task-modal').style.display = 'block';
+  document.querySelector('#project-form').style.display = 'flex';
+};
+
+const hideProjectForm = event => {
+  const taskModal = document.querySelector('#task-modal');
+  taskModal.style.display = 'none';
+  const projectForm = document.querySelector('#project-form');
+  projectForm.style.display = 'none';
+  projectForm.reset();
 };
 
 const enableEditTask = event => {
@@ -241,7 +317,29 @@ const loadTasks = projectName => {
     
     listContainer.appendChild(taskContainer);
   }
-}
+};
+
+const loadProjects = () => {
+  const projectListContainer = document.querySelector('.project-list');
+
+  // Refresh project list
+  while(projectListContainer.firstChild) {
+    projectListContainer.removeChild(projectListContainer.firstChild);
+  }
+
+  const projectListObject = retrieveProjectListObject();
+  let projectList = projectListObject.getProjectList();
+  projectList.splice(0, 1); // Removes 'default' project
+  for (let project of projectList) {
+    const projectContainer = document.createElement('li');
+    const projectButton = document.createElement('button');
+    projectButton.innerText = project.getName();
+    projectButton.classList.add('project');
+    projectButton.dataset.projectName = project.getName();
+    projectContainer.appendChild(projectButton);
+    projectListContainer.appendChild(projectContainer);
+  }
+};
 
 const initializePage = () => {
   const body = document.querySelector('body');
@@ -251,6 +349,7 @@ const initializePage = () => {
   createMainSection(body);
 
   newTaskDialog(body);
+  newProjectDialog(body);
   loadTasks('default');
 };
 

@@ -121,9 +121,22 @@ const editTask = event => {
   loadTasks(projectName);
 }
 
+const addProject = event => {
+  event.preventDefault();
+
+  const projectName = document.querySelector('#project-name').value;
+  const newProject = Project(projectName);
+  const projectListObject = retrieveProjectListObject();
+  projectListObject.addProject(newProject);
+  storeProjectList(projectListObject);
+
+  document.querySelector('#project-form').reset();
+};
+
 export {
   storeProjectList,
   retrieveProjectListObject,
   addTask,
   editTask,
+  addProject
 }
