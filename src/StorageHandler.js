@@ -11,7 +11,7 @@ const getTaskData = task => {
     effortLevel: task.getEffortLevel(),
     completed: task.isCompleted(),
   }
-}
+};
 
 // The returned data here will be used to store to localStorage
 const getProjectData = project => {
@@ -25,7 +25,7 @@ const getProjectData = project => {
     name: project.getName(),
     tasks,
   }
-}
+};
 
 const getProjectListData = projectList => {
   let projects = {};
@@ -37,12 +37,12 @@ const getProjectListData = projectList => {
   return {
     projects,
   }
-}
+};
 
 // Converts the todo Data retrieved from localStorage to todo Object
 const getTaskObject = taskData => {
   return Task(taskData.title, taskData.dueDate, taskData.effortLevel, taskData.completed);
-}
+};
 
 // Converts the todo Data retrieved from localStorage to project Object
 const getProjectObject = projectData => {
@@ -53,7 +53,7 @@ const getProjectObject = projectData => {
   }
 
   return projectObject;
-}
+};
 
 const getProjectListObject = projectListData => {
   let projectListObject = ProjectList();
@@ -65,15 +65,15 @@ const getProjectListObject = projectListData => {
   }
 
   return projectListObject;
-}
+};
 
 const storeProjectList = projectList => {
   localStorage.setItem('projectList', JSON.stringify(getProjectListData(projectList)));
-}
+};
 
 const retrieveProjectListObject = () => {
   return getProjectListObject(JSON.parse(localStorage.getItem('projectList')));
-}
+};
 
 const addTask = event => {
   event.preventDefault();
@@ -91,7 +91,7 @@ const addTask = event => {
   storeProjectList(projectListObject);
 
   document.querySelector('#task-form').reset();
-}
+};
 
 const editTask = event => {
   const taskContainer = event.target.parentElement; 
@@ -119,7 +119,21 @@ const editTask = event => {
   event.target.hidden = true;
 
   loadTasks();
-}
+};
+
+const deleteTask = event => {
+  const taskContainer = event.target.parentElement; 
+  const taskIndex = taskContainer.dataset.taskIndex;
+
+  let projectListObject = retrieveProjectListObject();
+  const projectName = localStorage.getItem('activeProject');
+  let project = projectListObject.getProject(projectName);
+
+  project.deleteTask(taskIndex);
+  storeProjectList(projectListObject);
+
+  loadTasks();
+};
 
 const addProject = event => {
   event.preventDefault();
@@ -160,6 +174,7 @@ export {
   retrieveProjectListObject,
   addTask,
   editTask,
+  deleteTask,
   addProject,
   updateActiveProject
 }

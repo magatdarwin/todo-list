@@ -5,13 +5,17 @@ const Project = (name, tasks = []) => {
 
   const getTaskByName = taskName => {
     return tasks[tasks.indexOf(taskName)];
-  }
+  };
 
   const getTasks = () => tasks;
 
   const addTask = taskName => {
     tasks.push(taskName);
-  }
+  };
+
+  const deleteTask = index => {
+    tasks.splice(index, 1);
+  };
 
   return {
     getName,
@@ -19,6 +23,7 @@ const Project = (name, tasks = []) => {
     getTaskByName,
     getTasks,
     addTask,
+    deleteTask,
   }
 }
 

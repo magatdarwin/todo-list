@@ -3,6 +3,7 @@ import {
   retrieveProjectListObject,
   addTask,
   editTask,
+  deleteTask,
   addProject,
   updateActiveProject
 } from './StorageHandler.js';
@@ -314,6 +315,7 @@ const loadTasks = () => {
     deleteButton.type = 'button'
     deleteButton.classList.add('delete-task');
     deleteButton.value = 'Delete';
+    deleteButton.addEventListener('click', deleteTask);
 
     taskContainer.appendChild(completed);
     taskContainer.appendChild(title);
