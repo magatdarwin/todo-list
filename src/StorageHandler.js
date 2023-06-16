@@ -135,6 +135,20 @@ const deleteTask = event => {
   loadTasks();
 };
 
+const toggleTaskCompleted = event => {
+  const taskContainer = event.target.parentElement; 
+  const taskIndex = taskContainer.dataset.taskIndex;
+
+  let projectListObject = retrieveProjectListObject();
+  const projectName = localStorage.getItem('activeProject');
+  let project = projectListObject.getProject(projectName);
+  let task = project.getTask(taskIndex);
+
+  task.toggleCompleted();
+  storeProjectList(projectListObject);
+  loadTasks();
+};
+
 const addProject = event => {
   event.preventDefault();
 
@@ -175,6 +189,7 @@ export {
   addTask,
   editTask,
   deleteTask,
+  toggleTaskCompleted,
   addProject,
   updateActiveProject
 }

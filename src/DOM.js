@@ -5,7 +5,8 @@ import {
   editTask,
   deleteTask,
   addProject,
-  updateActiveProject
+  updateActiveProject,
+  toggleTaskCompleted
 } from './StorageHandler.js';
 
 const createHeaderSection = body => {
@@ -59,13 +60,11 @@ const createNavSection = body => {
 const createMainSection = body => {
   const main = document.createElement('main');
 
-  const listTitleContainer = document.createElement('div');
-  listTitleContainer.classList.add('list-title-container');
   const listTitle = document.createElement('h2');
   listTitle.id = 'list-title';
-  listTitleContainer.appendChild(listTitle);
+  listTitle.classList.add('list-header');
 
-  const listContainer = document.createElement('div')
+  const listContainer = document.createElement('div');
   listContainer.classList.add('list-container');
 
   const listControls = document.createElement('div');
@@ -75,10 +74,18 @@ const createMainSection = body => {
   addTodoButton.textContent = 'New Task';
   addTodoButton.addEventListener('click', showTaskModal);
   listControls.appendChild(addTodoButton);
-  
-  main.appendChild(listTitleContainer);
+
+  const completedTitle = document.createElement('h3');
+  completedTitle.classList.add('list-header');
+  completedTitle.innerText = 'Completed Tasks';
+  const completedContainer = document.createElement('div');
+  completedContainer.classList.add('completed-container');
+
+  main.appendChild(listTitle);
   main.appendChild(listContainer)
   main.appendChild(listControls);
+  main.appendChild(completedTitle);
+  main.appendChild(completedContainer);
   body.appendChild(main);
 };
 
@@ -265,6 +272,11 @@ const loadTasks = () => {
     listContainer.removeChild(listContainer.firstChild);
   }
 
+  const completedContainer = document.querySelector('.completed-container');
+  while(completedContainer.firstChild) {
+    completedContainer.removeChild(completedContainer.firstChild);
+  }
+
   let projectListObject = retrieveProjectListObject();
   let tasks = projectListObject.getProject(projectName).getTasks();
 
@@ -278,7 +290,9 @@ const loadTasks = () => {
     const completed = document.createElement('input');
     completed.type = 'checkbox';
     completed.classList.add('is-completed');
-    completed.checked = task.isCompleted();
+    const taskCompleted = task.isCompleted();
+    completed.checked = taskCompleted;
+    completed.addEventListener('click', toggleTaskCompleted);
 
     const title = document.createElement('input');
     title.type = 'text';
@@ -336,7 +350,12 @@ const loadTasks = () => {
     taskContainer.appendChild(saveChangesButton);
     taskContainer.appendChild(deleteButton);
     
-    listContainer.appendChild(taskContainer);
+    if (taskCompleted) {
+      completedContainer.appendChild(taskContainer);
+    }
+    else {
+      listContainer.appendChild(taskContainer);
+    }
   }
 };
 
