@@ -76,8 +76,9 @@ const createMainSection = body => {
   listControls.appendChild(addTodoButton);
 
   const completedTitle = document.createElement('h3');
+  completedTitle.id = 'completed-title';
   completedTitle.classList.add('list-header');
-  completedTitle.innerText = 'Completed Tasks';
+  // completedTitle.innerText = 'Completed Tasks';
   const completedContainer = document.createElement('div');
   completedContainer.classList.add('completed-container');
 
@@ -280,6 +281,7 @@ const loadTasks = () => {
   let projectListObject = retrieveProjectListObject();
   let tasks = projectListObject.getProject(projectName).getTasks();
 
+  let completedTasks = 0;
   for (let index in tasks) {
     const task = tasks[index];
     const taskName = task.getTitle();
@@ -349,14 +351,18 @@ const loadTasks = () => {
     taskContainer.appendChild(editButton);
     taskContainer.appendChild(saveChangesButton);
     taskContainer.appendChild(deleteButton);
-    
+
     if (taskCompleted) {
       completedContainer.appendChild(taskContainer);
+      completedTasks++;
     }
     else {
       listContainer.appendChild(taskContainer);
     }
   }
+
+  const completedTitle = document.querySelector('#completed-title');
+  completedTitle.innerText = completedTasks > 0 ? 'Completed Tasks' : '';
 };
 
 const loadProjects = () => {
