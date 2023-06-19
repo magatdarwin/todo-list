@@ -122,17 +122,21 @@ const editTask = event => {
 };
 
 const deleteTask = event => {
-  const taskContainer = event.target.parentElement; 
-  const taskIndex = taskContainer.dataset.taskIndex;
+  const sureDelete = confirm('Are you sure you want to delete this task?');
 
-  let projectListObject = retrieveProjectListObject();
-  const projectName = localStorage.getItem('activeProject');
-  let project = projectListObject.getProject(projectName);
-
-  project.deleteTask(taskIndex);
-  storeProjectList(projectListObject);
-
-  loadTasks();
+  if (sureDelete) {
+    const taskContainer = event.target.parentElement; 
+    const taskIndex = taskContainer.dataset.taskIndex;
+  
+    let projectListObject = retrieveProjectListObject();
+    const projectName = localStorage.getItem('activeProject');
+    let project = projectListObject.getProject(projectName);
+  
+    project.deleteTask(taskIndex);
+    storeProjectList(projectListObject);
+  
+    loadTasks();  
+  }
 };
 
 const toggleTaskCompleted = event => {

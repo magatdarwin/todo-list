@@ -60,9 +60,23 @@ const createNavSection = body => {
 const createMainSection = body => {
   const main = document.createElement('main');
 
+  const listTitleContainer = document.createElement('div');
+  listTitleContainer.classList.add('list-title-container');
   const listTitle = document.createElement('h2');
   listTitle.id = 'list-title';
   listTitle.classList.add('list-header');
+  const editProject = document.createElement('input');
+  editProject.id = 'edit-project';
+  editProject.type = 'button';
+  editProject.value = 'Edit';
+  const deleteProject = document.createElement('input');
+  deleteProject.id = 'delete-project';
+  deleteProject.type = 'button';
+  deleteProject.value = 'Delete';
+
+  listTitleContainer.appendChild(listTitle);
+  listTitleContainer.appendChild(editProject);
+  listTitleContainer.appendChild(deleteProject);
 
   const listContainer = document.createElement('div');
   listContainer.classList.add('list-container');
@@ -81,7 +95,7 @@ const createMainSection = body => {
   const completedContainer = document.createElement('div');
   completedContainer.classList.add('completed-container');
 
-  main.appendChild(listTitle);
+  main.appendChild(listTitleContainer);
   main.appendChild(listContainer)
   main.appendChild(listControls);
   main.appendChild(completedTitle);
