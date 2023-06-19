@@ -230,7 +230,7 @@ const showTaskModal = () => {
   document.querySelector('#task-form').style.display = 'flex';
 };
 
-const hideTaskFormModal = event => {
+const hideTaskFormModal = () => {
   const taskModal = document.querySelector('#task-modal');
   taskModal.style.display = 'none';
   const taskForm = document.querySelector('#task-form');
@@ -243,7 +243,7 @@ const showProjectForm = () => {
   document.querySelector('#project-form').style.display = 'flex';
 };
 
-const hideProjectForm = event => {
+const hideProjectForm = () => {
   const taskModal = document.querySelector('#task-modal');
   taskModal.style.display = 'none';
   const projectForm = document.querySelector('#project-form');
