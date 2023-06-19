@@ -78,7 +78,6 @@ const createMainSection = body => {
   const completedTitle = document.createElement('h3');
   completedTitle.id = 'completed-title';
   completedTitle.classList.add('list-header');
-  // completedTitle.innerText = 'Completed Tasks';
   const completedContainer = document.createElement('div');
   completedContainer.classList.add('completed-container');
 
@@ -251,16 +250,19 @@ const hideProjectForm = () => {
   projectForm.reset();
 };
 
-const enableEditTask = event => {
+const toggleEditTask = event => {
+  const isEdit = event.target.classList.contains('edit-task');
   const taskContainer = event.target.parentElement;
 
-  taskContainer.querySelector('.task-title').readOnly = false;
-  taskContainer.querySelector('.effort-level').disabled = false;
-  taskContainer.querySelector('.due-date').readOnly = false;
+  taskContainer.querySelector('.task-title').readOnly = !isEdit;
+  taskContainer.querySelector('.effort-level').disabled = !isEdit;
+  taskContainer.querySelector('.due-date').readOnly = !isEdit;
 
-  taskContainer.querySelector('.save-changes').hidden = false;
-  event.target.hidden = true;
-}
+  taskContainer.querySelector('.save-changes').hidden = !isEdit;
+  taskContainer.querySelector('.cancel-changes').hidden = !isEdit;
+  taskContainer.querySelector('.edit-task').hidden = isEdit;
+  taskContainer.querySelector('.delete-task').hidden = isEdit;
+};
 
 const loadTasks = () => {
   const projectName = localStorage.getItem('activeProject');
@@ -329,7 +331,7 @@ const loadTasks = () => {
     editButton.type = 'button'
     editButton.classList.add('edit-task');
     editButton.value = 'Edit';
-    editButton.addEventListener('click', enableEditTask);
+    editButton.addEventListener('click', toggleEditTask);
 
     const saveChangesButton = document.createElement('input');
     saveChangesButton.type = 'button';
@@ -344,6 +346,13 @@ const loadTasks = () => {
     deleteButton.value = 'Delete';
     deleteButton.addEventListener('click', deleteTask);
 
+    const cancelButton = document.createElement('input');
+    cancelButton.type = 'button';
+    cancelButton.classList.add('cancel-changes');
+    cancelButton.value = 'Cancel';
+    cancelButton.addEventListener('click', toggleEditTask);
+    cancelButton.hidden = true;
+
     taskContainer.appendChild(completed);
     taskContainer.appendChild(title);
     taskContainer.appendChild(effortLevel);
@@ -351,6 +360,7 @@ const loadTasks = () => {
     taskContainer.appendChild(editButton);
     taskContainer.appendChild(saveChangesButton);
     taskContainer.appendChild(deleteButton);
+    taskContainer.appendChild(cancelButton);
 
     if (taskCompleted) {
       completedContainer.appendChild(taskContainer);
