@@ -254,6 +254,15 @@ const toggleEditTask = event => {
   const isEdit = event.target.classList.contains('edit-task');
   const taskContainer = event.target.parentElement;
 
+  // Disable Edit and Delete buttons of other tasks
+  const taskContainers = document.querySelectorAll('.task-container');
+  for (let otherTaskContainer of taskContainers) {
+    if (otherTaskContainer !== taskContainer) {
+      otherTaskContainer.querySelector('.edit-task').disabled = true;
+      otherTaskContainer.querySelector('.delete-task').disabled = true;
+    }
+  }
+
   taskContainer.querySelector('.task-title').readOnly = !isEdit;
   taskContainer.querySelector('.effort-level').disabled = !isEdit;
   taskContainer.querySelector('.due-date').readOnly = !isEdit;
@@ -262,6 +271,10 @@ const toggleEditTask = event => {
   taskContainer.querySelector('.cancel-changes').hidden = !isEdit;
   taskContainer.querySelector('.edit-task').hidden = isEdit;
   taskContainer.querySelector('.delete-task').hidden = isEdit;
+
+  if (!isEdit) {
+    loadTasks(); // Resets any changes made to the tasks
+  }
 };
 
 const loadTasks = () => {
