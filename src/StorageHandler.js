@@ -1,7 +1,7 @@
 import Task from './Task';
 import Project from './Project';
 import ProjectList from './ProjectList';
-import { loadTasks, hideTaskFormModal } from './DOM';
+import { loadTasks, updateActiveProjectID } from './DOM';
 
 // The returned data here will be used to store to localStorage
 const getTaskData = task => {
@@ -179,11 +179,11 @@ const updateActiveProject = newActiveProject => {
 
   if (projects.includes(newActiveProject)) {
     localStorage.setItem('activeProject', newActiveProject);
-
-    const currentActiveProjectElement = document.querySelector('#current-project');
-    currentActiveProjectElement.removeAttribute('id');
-    const newActiveProjectElement = document.querySelector(`[data-project-name="${newActiveProject}"]`);
-    newActiveProjectElement.id = 'current-project';
+    updateActiveProjectID();
+    // const currentActiveProjectElement = document.querySelector('#current-project');
+    // currentActiveProjectElement.removeAttribute('id');
+    // const newActiveProjectElement = document.querySelector(`[data-project-name="${newActiveProject}"]`);
+    // newActiveProjectElement.id = 'current-project';
   }
 };
 

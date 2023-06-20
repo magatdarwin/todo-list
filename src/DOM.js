@@ -54,7 +54,6 @@ const createNavSection = body => {
   links.appendChild(projectListContainer);
   nav.appendChild(links);
   body.appendChild(nav);
-  loadProjects();
 };
 
 const createMainSection = body => {
@@ -402,6 +401,18 @@ const loadTasks = () => {
   completedTitle.innerText = completedTasks > 0 ? 'Completed Tasks' : '';
 };
 
+const updateActiveProjectID = () => {
+  const currentActiveProjectElement = document.querySelector('#current-project');
+
+  if (currentActiveProjectElement !== null) {
+    currentActiveProjectElement.removeAttribute('id');
+  }
+
+  const newActiveProject = localStorage.getItem('activeProject');
+  const newActiveProjectElement = document.querySelector(`[data-project-name="${newActiveProject}"]`);
+  newActiveProjectElement.id = 'current-project';
+};
+
 const loadProjects = () => {
   const projectListContainer = document.querySelector('.project-list');
 
@@ -412,21 +423,25 @@ const loadProjects = () => {
 
   const projectListObject = retrieveProjectListObject();
   let projectList = projectListObject.getProjectList();
-  projectList.splice(0, 1); // Removes 'General' project
+  // projectList.splice(0, 1); // Removes 'General' project
   for (let project of projectList) {
-    const projectContainer = document.createElement('li');
-    const projectButton = document.createElement('button');
     const projectName = project.getName();
-    projectButton.innerText = projectName;
-    projectButton.classList.add('project');
-    projectButton.dataset.projectName = projectName;
-    projectButton.addEventListener('click', () => {
-      updateActiveProject(projectName);
-      loadTasks();
-    });
-    projectContainer.appendChild(projectButton);
-    projectListContainer.appendChild(projectContainer);
+    if (projectName !== 'General') {
+      const projectContainer = document.createElement('li');
+      const projectButton = document.createElement('button');
+      projectButton.innerText = projectName;
+      projectButton.classList.add('project');
+      projectButton.dataset.projectName = projectName;
+      projectButton.addEventListener('click', () => {
+        updateActiveProject(projectName);
+        loadTasks();
+      });
+      projectContainer.appendChild(projectButton);
+      projectListContainer.appendChild(projectContainer);
+    }
   }
+
+  updateActiveProjectID();
 };
 
 const initializePage = () => {
@@ -435,11 +450,12 @@ const initializePage = () => {
   createHeaderSection(body);
   createNavSection(body);
   createMainSection(body);
-
   newTaskDialog(body);
   newProjectDialog(body);
+
   updateActiveProject('General');
+  loadProjects();
   loadTasks();
 };
 
-export { initializePage, loadTasks, hideTaskFormModal };
+export { initializePage, loadTasks, hideTaskFormModal, updateActiveProjectID };
