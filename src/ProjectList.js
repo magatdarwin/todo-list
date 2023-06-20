@@ -33,7 +33,7 @@ const ProjectList = (projects = []) => {
     return list;
   };
 
-  const removeProject = index => {
+  const deleteProject = index => {
     projects.splice(index, 1);
   };
 
@@ -44,7 +44,7 @@ const ProjectList = (projects = []) => {
     getProjectIndex,
     getProjectList,
     getProjectNames,
-    removeProject,
+    deleteProject,
   }
 };
 

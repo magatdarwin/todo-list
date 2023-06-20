@@ -6,6 +6,7 @@ import {
   deleteTask,
   addProject,
   editProject,
+  deleteProject,
   updateActiveProject,
   toggleTaskCompleted
 } from './StorageHandler.js';
@@ -74,6 +75,7 @@ const createMainSection = body => {
   deleteProjectButton.id = 'delete-project';
   deleteProjectButton.type = 'button';
   deleteProjectButton.value = 'Delete';
+  deleteProjectButton.addEventListener('click', deleteProject);
 
   const saveProjectChangesButton = document.createElement('input');
   saveProjectChangesButton.id = 'save-project-changes';

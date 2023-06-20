@@ -131,7 +131,7 @@ const deleteTask = event => {
     project.deleteTask(taskIndex);
     storeProjectList(projectListObject);
   
-    loadTasks();  
+    loadTasks();
   }
 };
 
@@ -183,6 +183,22 @@ const editProject = event => {
   }
 };
 
+const deleteProject = event => {
+  const sureDelete = confirm('Are you sure you want to delete this project?');
+
+  if (sureDelete) {
+    const projectNameContainer = event.target.parentElement;
+    const projectIndex = projectNameContainer.dataset.projectIndex;
+    const projectListObject = retrieveProjectListObject();
+    projectListObject.deleteProject(projectIndex);
+    storeProjectList(projectListObject);
+
+    updateActiveProject('General');
+    loadProjects();
+    loadTasks();
+  }
+};
+
 const isValidProject = projectName => {
   const projectListObject = retrieveProjectListObject();
   const projectNames = projectListObject.getProjectNames();
@@ -215,5 +231,6 @@ export {
   toggleTaskCompleted,
   addProject,
   editProject,
+  deleteProject,
   updateActiveProject
 }
