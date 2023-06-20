@@ -1,7 +1,7 @@
 import Task from './Task';
 import Project from './Project';
 import ProjectList from './ProjectList';
-import { loadTasks, updateActiveProjectID } from './DOM';
+import { loadTasks, updateActiveProjectID, loadProjects, toggleEditProject } from './DOM';
 
 // The returned data here will be used to store to localStorage
 const getTaskData = task => {
@@ -114,10 +114,6 @@ const editTask = event => {
 
   storeProjectList(projectListObject);
 
-  taskContainer.querySelector('.save-changes').hidden = false;
-  editButton.hidden = false;
-  event.target.hidden = true;
-
   loadTasks();
 };
 
@@ -158,18 +154,45 @@ const addProject = event => {
 
   const projectName = document.querySelector('#project-name').value;
   const projectListObject = retrieveProjectListObject();
-  const projectNames = projectListObject.getProjectNames();
 
-  if (projectNames.includes(projectName)) {
-    alert(`${projectName} already exists. Please enter a unique project name.`);
-  }
-  else {
+  if (isValidProject(projectName)) {
     const newProject = Project(projectName);
 
     projectListObject.addProject(newProject);
     storeProjectList(projectListObject);
 
     document.querySelector('#project-form').reset();  
+  }
+};
+
+const editProject = event => {
+  const projectNameContainer = event.target.parentElement;
+  const newProjectName = projectNameContainer.querySelector('#list-title').innerText;
+
+  if (isValidProject(newProjectName)) {
+    const projectListObject = retrieveProjectListObject();
+    const projectIndex = projectNameContainer.dataset.projectIndex;
+    const project = projectListObject.getProjectByIndex(projectIndex); 
+
+    project.setName(newProjectName);
+    storeProjectList(projectListObject);
+    localStorage.setItem('activeProject', newProjectName);
+    toggleEditProject(event);
+    loadProjects();
+    loadTasks();
+  }
+};
+
+const isValidProject = projectName => {
+  const projectListObject = retrieveProjectListObject();
+  const projectNames = projectListObject.getProjectNames();
+
+  if (projectNames.includes(projectName)) {
+    alert(`${projectName} already exists. Please enter a unique project name.`);
+    return false;
+  }
+  else {
+    return true;
   }
 };
 
@@ -180,10 +203,6 @@ const updateActiveProject = newActiveProject => {
   if (projects.includes(newActiveProject)) {
     localStorage.setItem('activeProject', newActiveProject);
     updateActiveProjectID();
-    // const currentActiveProjectElement = document.querySelector('#current-project');
-    // currentActiveProjectElement.removeAttribute('id');
-    // const newActiveProjectElement = document.querySelector(`[data-project-name="${newActiveProject}"]`);
-    // newActiveProjectElement.id = 'current-project';
   }
 };
 
@@ -195,5 +214,6 @@ export {
   deleteTask,
   toggleTaskCompleted,
   addProject,
+  editProject,
   updateActiveProject
 }

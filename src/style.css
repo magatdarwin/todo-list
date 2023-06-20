@@ -124,3 +124,8 @@ button, input[type="button"] {
 #current-project {
   background-color: rgb(151, 202, 151);
 }
+
+.editable {
+  background-color: rgb(219, 219, 219);
+  border: 1px solid black;
+}

@@ -5,6 +5,7 @@ import {
   editTask,
   deleteTask,
   addProject,
+  editProject,
   updateActiveProject,
   toggleTaskCompleted
 } from './StorageHandler.js';
@@ -64,18 +65,34 @@ const createMainSection = body => {
   const listTitle = document.createElement('h2');
   listTitle.id = 'list-title';
   listTitle.classList.add('list-header');
-  const editProject = document.createElement('input');
-  editProject.id = 'edit-project';
-  editProject.type = 'button';
-  editProject.value = 'Edit';
-  const deleteProject = document.createElement('input');
-  deleteProject.id = 'delete-project';
-  deleteProject.type = 'button';
-  deleteProject.value = 'Delete';
+  const editProjectButton = document.createElement('input');
+  editProjectButton.id = 'edit-project';
+  editProjectButton.type = 'button';
+  editProjectButton.value = 'Edit';
+  editProjectButton.addEventListener('click', toggleEditProject);
+  const deleteProjectButton = document.createElement('input');
+  deleteProjectButton.id = 'delete-project';
+  deleteProjectButton.type = 'button';
+  deleteProjectButton.value = 'Delete';
+
+  const saveProjectChangesButton = document.createElement('input');
+  saveProjectChangesButton.id = 'save-project-changes';
+  saveProjectChangesButton.type = 'button';
+  saveProjectChangesButton.value = 'Save Changes';
+  saveProjectChangesButton.addEventListener('click', editProject);
+  saveProjectChangesButton.hidden = true;
+  const cancelProjectChangesButton = document.createElement('input');
+  cancelProjectChangesButton.id = 'cancel-project-changes';
+  cancelProjectChangesButton.type = 'button';
+  cancelProjectChangesButton.value = 'Cancel';
+  cancelProjectChangesButton.addEventListener('click', toggleEditProject);
+  cancelProjectChangesButton.hidden = true;
 
   listTitleContainer.appendChild(listTitle);
-  listTitleContainer.appendChild(editProject);
-  listTitleContainer.appendChild(deleteProject);
+  listTitleContainer.appendChild(editProjectButton);
+  listTitleContainer.appendChild(deleteProjectButton);
+  listTitleContainer.appendChild(saveProjectChangesButton);
+  listTitleContainer.appendChild(cancelProjectChangesButton);
 
   const listContainer = document.createElement('div');
   listContainer.classList.add('list-container');
@@ -290,9 +307,31 @@ const toggleEditTask = event => {
   }
 };
 
+const toggleEditProject = event => {
+  const isEdit = event.target.id === 'edit-project';
+  const projectNameContainer = event.target.parentElement;
+
+  const listTitle = projectNameContainer.querySelector('#list-title');
+  listTitle.contentEditable = isEdit;
+  listTitle.classList.add('editable');
+
+  projectNameContainer.querySelector('#edit-project').hidden = isEdit;
+  projectNameContainer.querySelector('#delete-project').hidden = isEdit;
+  projectNameContainer.querySelector('#save-project-changes').hidden = !isEdit;
+  projectNameContainer.querySelector('#cancel-project-changes').hidden = !isEdit;
+
+  if (!isEdit) {
+    loadTasks(); // Resets any changes made to the Project
+    listTitle.classList.remove('editable');
+  }
+};
+
 const loadTasks = () => {
   const projectName = localStorage.getItem('activeProject');
+  const projectListObject = retrieveProjectListObject();
 
+  const listTitleContainer = document.querySelector('.list-title-container');
+  listTitleContainer.dataset.projectIndex = projectListObject.getProjectIndex(projectName);
   const listTitle = document.querySelector('#list-title');
   listTitle.innerText = projectName;
 
@@ -306,8 +345,7 @@ const loadTasks = () => {
     completedContainer.removeChild(completedContainer.firstChild);
   }
 
-  let projectListObject = retrieveProjectListObject();
-  let tasks = projectListObject.getProject(projectName).getTasks();
+  const tasks = projectListObject.getProject(projectName).getTasks();
 
   let completedTasks = 0;
   for (let index in tasks) {
@@ -458,4 +496,11 @@ const initializePage = () => {
   loadTasks();
 };
 
-export { initializePage, loadTasks, hideTaskFormModal, updateActiveProjectID };
+export { 
+  initializePage, 
+  loadTasks,
+  hideTaskFormModal,
+  updateActiveProjectID,
+  loadProjects,
+  toggleEditProject 
+};

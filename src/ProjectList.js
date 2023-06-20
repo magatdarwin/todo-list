@@ -8,6 +8,13 @@ const ProjectList = (projects = []) => {
     return projects[index];
   };
 
+  const getProjectByIndex = index => projects[index];
+
+  const getProjectIndex = projectName => {
+    const list = getProjectNames();
+    return list.indexOf(projectName);
+  };
+
   const getProjectList = () => {
     let list = [];
     for (let project of projects) {
@@ -33,6 +40,8 @@ const ProjectList = (projects = []) => {
   return {
     addProject,
     getProject,
+    getProjectByIndex,
+    getProjectIndex,
     getProjectList,
     getProjectNames,
     removeProject,

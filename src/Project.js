@@ -17,6 +17,10 @@ const Project = (name, tasks = []) => {
     tasks.splice(index, 1);
   };
 
+  const setName = newName => {
+    name = newName;
+  };
+
   return {
     getName,
     getTask,
@@ -24,6 +28,7 @@ const Project = (name, tasks = []) => {
     getTasks,
     addTask,
     deleteTask,
+    setName,
   }
 }
 
