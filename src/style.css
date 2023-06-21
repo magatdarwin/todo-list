@@ -202,11 +202,13 @@ button, input[type="button"] {
   background-color: var(--secondary-color);
 }
 
+.is-completed {
+  cursor: pointer;
+}
+
 /* Temporary Styles */
 button, 
-/* input[type="button"], */
-/* input[type="submit"], */
-input[type="text"], 
+input[type="text"],
 input[type="date"],
 option,
 select {
