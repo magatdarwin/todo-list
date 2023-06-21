@@ -49,6 +49,7 @@ const createNavSection = body => {
   const newProjectButton = document.createElement('button');
   newProjectButton.textContent = 'New Project';
   newProjectButton.id = 'new-project';
+  newProjectButton.classList.add('primary-button');
   newProjectButton.addEventListener('click', showProjectForm);
 
   projects.appendChild(projectsHeader);
@@ -74,23 +75,27 @@ const createMainSection = body => {
   listTitle.classList.add('list-header');
   const editProjectButton = document.createElement('input');
   editProjectButton.id = 'edit-project';
+  editProjectButton.classList.add('primary-button');
   editProjectButton.type = 'button';
   editProjectButton.value = 'Edit';
   editProjectButton.addEventListener('click', toggleEditProject);
   const deleteProjectButton = document.createElement('input');
   deleteProjectButton.id = 'delete-project';
+  deleteProjectButton.classList.add('secondary-button');
   deleteProjectButton.type = 'button';
   deleteProjectButton.value = 'Delete';
   deleteProjectButton.addEventListener('click', deleteProject);
 
   const saveProjectChangesButton = document.createElement('input');
   saveProjectChangesButton.id = 'save-project-changes';
+  saveProjectChangesButton.classList.add('accent-button');
   saveProjectChangesButton.type = 'button';
   saveProjectChangesButton.value = 'Save Changes';
   saveProjectChangesButton.addEventListener('click', editProject);
   saveProjectChangesButton.hidden = true;
   const cancelProjectChangesButton = document.createElement('input');
   cancelProjectChangesButton.id = 'cancel-project-changes';
+  cancelProjectChangesButton.classList.add('secondary-button');
   cancelProjectChangesButton.type = 'button';
   cancelProjectChangesButton.value = 'Cancel';
   cancelProjectChangesButton.addEventListener('click', toggleEditProject);
@@ -109,6 +114,7 @@ const createMainSection = body => {
   listControls.classList.add('list-controls');
   const addTodoButton = document.createElement('button');
   addTodoButton.id = 'add-todo';
+  addTodoButton.classList.add('primary-button');
   addTodoButton.textContent = 'New Task';
   addTodoButton.addEventListener('click', showTaskModal);
   listControls.appendChild(addTodoButton);
@@ -151,6 +157,7 @@ const newProjectDialog = body => {
   submitButton.type = 'submit';
   submitButton.value = 'Add Project';
   submitButton.id = 'add-new-project';
+  submitButton.classList.add('accent-button');
   submitButton.addEventListener('click', event => {
     addProject(event);
     hideProjectForm();
@@ -161,6 +168,7 @@ const newProjectDialog = body => {
   cancelButton.type = 'button';
   cancelButton.value = 'Cancel';
   cancelButton.id = 'cancel-new-project';
+  cancelButton.classList.add('secondary-button');
   cancelButton.addEventListener('click', hideProjectForm);
   controlGroup.appendChild(cancelButton);
 
@@ -240,6 +248,7 @@ const newTaskDialog = body => {
   submitButton.type = 'submit';
   submitButton.value = 'Add Task';
   submitButton.id = 'submit-new-task';
+  submitButton.classList.add('accent-button');
   submitButton.addEventListener('click', event => {
     addTask(event);
     hideTaskFormModal();
@@ -250,6 +259,7 @@ const newTaskDialog = body => {
   cancelButton.type = 'button';
   cancelButton.value = 'Cancel';
   cancelButton.id = 'cancel-new-task';
+  cancelButton.classList.add('secondary-button');
   cancelButton.addEventListener('click', hideTaskFormModal);
   controlGroup.appendChild(cancelButton);
 
@@ -401,26 +411,26 @@ const loadTasks = () => {
 
     const editButton = document.createElement('input');
     editButton.type = 'button'
-    editButton.classList.add('edit-task');
+    editButton.classList.add('edit-task', 'primary-button');
     editButton.value = 'Edit';
     editButton.addEventListener('click', toggleEditTask);
 
     const saveChangesButton = document.createElement('input');
     saveChangesButton.type = 'button';
-    saveChangesButton.classList.add('save-changes');
+    saveChangesButton.classList.add('save-changes', 'accent-button');
     saveChangesButton.value = 'Save Changes';
     saveChangesButton.addEventListener('click', editTask);
     saveChangesButton.hidden = true;
 
     const deleteButton = document.createElement('input');
     deleteButton.type = 'button'
-    deleteButton.classList.add('delete-task');
+    deleteButton.classList.add('delete-task', 'secondary-button');
     deleteButton.value = 'Delete';
     deleteButton.addEventListener('click', deleteTask);
 
     const cancelButton = document.createElement('input');
     cancelButton.type = 'button';
-    cancelButton.classList.add('cancel-changes');
+    cancelButton.classList.add('cancel-changes', 'secondary-button');
     cancelButton.value = 'Cancel';
     cancelButton.addEventListener('click', toggleEditTask);
     cancelButton.hidden = true;

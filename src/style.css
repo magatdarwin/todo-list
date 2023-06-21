@@ -185,14 +185,27 @@ button, input[type="button"] {
 }
 
 .editable {
-  background-color: rgb(219, 219, 219);
-  border: 1px solid black;
+  border: 1px solid var(--text-color);
+  background-color: var(--primary-color);
+}
+
+.accent-button {
+  background-color: var(--accent-color);
+  color: var(--background-color);
+}
+
+.primary-button {
+  background-color: var(--primary-color);
+}
+
+.secondary-button {
+  background-color: var(--secondary-color);
 }
 
 /* Temporary Styles */
 button, 
-input[type="button"], 
-input[type="submit"],
+/* input[type="button"], */
+/* input[type="submit"], */
 input[type="text"], 
 input[type="date"],
 option,
