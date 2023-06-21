@@ -39,21 +39,27 @@ const createNavSection = body => {
 
   const projects = document.createElement('li');
   const projectsHeader = document.createElement('div');
+  const projectsHeaderText = document.createElement('h2')
   projectsHeader.classList.add('projects');
-  projectsHeader.innerText = 'Projects';
+  projectsHeaderText.classList.add('list-header');
+  projectsHeaderText.innerText = 'Projects';
+  projectsHeader.appendChild(projectsHeaderText);
+
+  const projectControls = document.createElement('li');
   const newProjectButton = document.createElement('button');
-  newProjectButton.textContent = '+';
+  newProjectButton.textContent = 'New Project';
   newProjectButton.id = 'new-project';
   newProjectButton.addEventListener('click', showProjectForm);
 
-  projectsHeader.appendChild(newProjectButton);
   projects.appendChild(projectsHeader);
 
   links.appendChild(projects);
   const projectListContainer = document.createElement('ul');
-  projectListContainer.classList.add('project-list');
+  projectListContainer.classList.add('project-list'); 
 
   links.appendChild(projectListContainer);
+  projectControls.appendChild(newProjectButton);
+  links.appendChild(projectControls);
   nav.appendChild(links);
   body.appendChild(nav);
 };
