@@ -33,7 +33,6 @@
 }
 
 * {
-  /* border: 1px dashed gray; */
   font-family: 'Roboto-Regular';
   color: var(--text-color);
   font-size: 1.1rem;
@@ -114,10 +113,11 @@ button, input[type="button"] {
 
 #task-form, #project-form {
   display: none;
-  background-color: white;
-  border-radius: 20px;
+  background-color: var(--secondary-color);
+  border-radius: 10px;
   padding: 20px;
-  margin: 15% 35%;
+  margin: 15% auto;
+  width: 40%;
   padding: 40px;
   flex-direction: column;
   align-items: center;
@@ -149,7 +149,6 @@ button, input[type="button"] {
 
 .task-container {
   display: flex;
-  /* padding: 10px; */
   gap: 5px;
 }
 
@@ -172,8 +171,6 @@ button, input[type="button"] {
 }
 
 .project {
-  /* font-size: 1rem; */
-  font-size: 100%;
   text-align: left;
   width: 100%;
   border: none;
@@ -201,4 +198,8 @@ input[type="submit"],
 input[type="text"], 
 input[type="date"] {
   background-color: var(--secondary-color);
+}
+
+* {
+  /* border: 1px dashed gray; */
 }
